@@ -51,7 +51,7 @@
             function drawBoard(userSeed) {
                 // reset board
                 let seed = Math.ceil(Math.random() * 100000);
-                if (userSeed) {
+                if (userSeed && typeof userSeed != 'object') {
                     seed = userSeed;
                 }
                 let board = document.getElementById('board');
