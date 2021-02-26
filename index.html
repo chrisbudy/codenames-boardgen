@@ -48,6 +48,12 @@
 
                 generateKeyButton = document.getElementById('key');
                 generateKeyButton.onclick = drawKey;
+
+                generateKeyFromSeedButton = document.getElementById('generateKeyFromSeed');
+                generateKeyFromSeedButton.onclick = () => {
+                    let keySeed = document.getElementById('keySeed').value;
+                    drawKey(keySeed);
+                };
             });
 
             function fisherYates(myArray, nb_picks, seed) {
@@ -112,7 +118,8 @@
                 const cards = document.querySelectorAll('.card');
                 if (cards.length > 0) {
                     let gameKey = keyOptions.slice();
-                    if (Math.ceil(Math.random() * 2) == 1) {
+                    let rng = new Math.seedrandom(seed);
+                    if (Math.ceil(rng() * 2) == 1) {
                         gameKey.push('red');
                         document.getElementById('goesFirst').innerHTML = 'Red goes first.';
                     } else {
