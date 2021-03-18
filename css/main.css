@@ -1,0 +1,22 @@
+.card {
+    padding: 5px;
+    width: 100px;
+    border: 1px solid #000;
+    text-align: center;
+}
+.assasin {
+    color: #fff;
+    background: #333;
+}
+.bystander {
+    background: rgb(229, 194, 128);
+}
+.red {
+    background: #ff6a6a;
+}
+.blue {
+    background: #317aff;
+}
+#string {
+    margin-top: 10px;
+}
