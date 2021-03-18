@@ -122,7 +122,7 @@ function drawKey(newKeyId) {
 }
 
 function updateBoardLink() {
-    let links = document.getElementById('link');
+    let links = document.getElementById('links');
     links.innerHTML = '';
     
     if (boardId) {
