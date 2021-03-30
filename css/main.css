@@ -1,5 +1,5 @@
-.card {
-    padding: 5px;
+.cn-card {
+    padding: 20px 5px;
     width: 100px;
     border: 1px solid #000;
     text-align: center;
@@ -19,4 +19,8 @@
 }
 #string {
     margin-top: 10px;
+}
+table {
+    border-spacing: 1em;
+    border-collapse: separate;
 }
