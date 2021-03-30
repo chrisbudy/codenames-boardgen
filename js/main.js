@@ -153,7 +153,4 @@ function updateBoardLink() {
         keyContainer.innerHTML += ` (Board: ${boardId}; Key: ${keyId})`;
         links.appendChild(keyContainer);
     }
-    
-
-    // links.appendChild(boardLink);
 }
