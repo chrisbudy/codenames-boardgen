@@ -76,7 +76,7 @@ function drawBoard(newBoardId) {
             boardLayout[row] = document.createElement('tr');
         }
         let card = document.createElement('td');
-        card.classList.add('card');
+        card.classList.add('cn-card');
         card.innerHTML = word;
         
         boardLayout[row].appendChild(card);
@@ -99,7 +99,7 @@ function drawKey(newKeyId) {
     if (boardString) {
         drawBoard(boardString.innerHTML);
     }                
-    const cards = document.querySelectorAll('.card');
+    const cards = document.querySelectorAll('.cn-card');
     if (cards.length > 0) {
         let gameKey = keyOptions.slice();
         let rng = new Math.seedrandom(seed);
