@@ -95,10 +95,11 @@ function drawKey(newKeyId) {
         seed = newKeyId;
     }
     keyId = seed;
-    const boardString = document.getElementById('string');
-    if (boardString) {
-        drawBoard(boardString.innerHTML);
-    }                
+    if (boardId) {
+        drawBoard(boardId);
+    } else {
+        drawBoard();
+    }
     const cards = document.querySelectorAll('.cn-card');
     if (cards.length > 0) {
         let gameKey = keyOptions.slice();
