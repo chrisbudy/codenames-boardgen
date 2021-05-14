@@ -4,7 +4,7 @@ let keyId = urlParams.get('k');
 
 let wordOptions = 'Hollywood,Well,Foot,New York,Spring,Court,Tube,Point,Tablet,Slip,Date,Drill,Lemon,Bell,Screen,Fair,Torch,State,Match,Iron,Block,France,Australia,Limousine,Stream,Glove,Nurse,Leprechaun,Play,Tooth,Arm,Bermuda,Diamond,Whale,Comic,Mammoth,Green,Pass,Missile,Paste,Drop,Pheonix,Marble,Staff,Figure,Park,Centaur,Shadow,Fish,Cotton,Egypt,Theater,Scale,Fall,Track,Force,Dinosaur,Bill,Mine,Turkey,March,Contract,Bridge,Robin,Line,Plate,Band,Fire,Bank,Boom,Cat,Shot,Suit,Chocolate,Roulette,Mercury,Moon,Net,Lawyer,Satellite,Angel,Spider,Germany,Fork,Pitch,King,Trip,Dog,Conductor,Part,Bugle,Witch,Ketchup,Press,Spine,Worm,Alps,Bond,Pan,Beijing,Racket,Cross,Seal,Aztec,Maple,Parachute,Hotel,Berry,Soldier,Ray,Post,Greece,Square,Mass,Bat,Wave,Car,Smuggler,England,Crash,Tail,Card,Horn,Capital,Fence,Deck,Buffalo,Microscope,Jet,Duck,Ring,Train,Field,Gold,Tick,Check,Queen,Strike,Kangaroo,Spike,Scientist,Engine,Shakespeare,Wind,Kid,Embassy,Robot,Note,Ground,Draft,Ham,War,Mouse,Center,Chick,China,Bolt,Spot,Piano,Pupil,Plot,Lion,Police,Head,Litter,Concert,Mug,Vacuum,Atlantis,Straw,Switch,Skyscraper,Laser,Scuba Diver,Africa,Plastic,Dwarf,Lap,Life,Honey,Horseshoe,Unicorn,Spy,Pants,Wall,Paper,Sound,Ice,Tag,Web,Fan,Orange,Temple,Canada,Scorpion,Undertaker,Mail,Europe,Soul,Apple,Pole,Tap,Mouth,Ambulance,Dress,Ice Cream,Rabbit,Buck,Agent,Sock,Nut,Boot,Ghost,Oil,Superhero,Code,Kiwi,Hospital,Saturn,Film,Button,Snowman,Helicopter,Loch Ness,Log,Princess,Time,Cook,Revolution,Shoe,Mole,Spell,Grass,Washer,Game,Beat,Hole,Horse,Pirate,Link,Dance,Fly,Pit,Server,School,Lock,Brush,Pool,Star,Jam,Organ,Berlin,Face,Luck,Amazon,Cast,Gas,Club,Sink,Water,Chair,Shark,Jupiter,Copper,Jack,Platypus,Stick,Olive,Grace,Bear,Glass,Row,Pistol,London,Rock,Van,Vet,Beach,Charge,Port,Disease,Palm,Moscow,Pin,Washington,Pyramid,Opera,Casino,Pilot,String,Night,Chest,Yard,Teacher,Pumpkin,Thief,Bark,Bug,Mint,Cycle,Telescope,Calf,Air,Box,Mount,Thumb,Antactica,Trunk,Snow,Penguin,Root,Bar,File,Hawk,Battery,Compound,Slug,Octopus,Whip,America,Ivory,Pound,Sub,Cliff,Lab,Eagle,Genious,Ship,Dice,Hood,Heart,Novel,Pipe,Himalayas,Crown,Round,India,Needle,Shop,Watch,Lead,Tie,Table,Cell,Cover,Czech,Back,Bomb,Ruler,Forest,Bottle,Space,Hook,Doctor,Ball,Bow,Degree,Rome,Plane,Giant,Nail,Dragon,Stadium,Flute,Carrot,Wake,Fighter,Model,Tokyo,Eye,Mexico,Hand,Swing,Key,Alien,Tower,Poison,Cricket,Cold,Knife,Church,Board,Cloak,Ninja,Olympus,Belt,Light,Death,Stock,Millionarie,Day,Knight,Pie,Bed,Circle,Rose,Change,Cap,Triangle';
 wordOptions = wordOptions.split(',');
-let keyOptions = 'blue,blue,blue,blue,blue,blue,blue,blue,red,red,red,red,red,red,red,red,assasin,bystander,bystander,bystander,bystander,bystander,bystander,bystander';
+let keyOptions = 'blue,blue,blue,blue,blue,blue,blue,blue,red,red,red,red,red,red,red,red,assassin,bystander,bystander,bystander,bystander,bystander,bystander,bystander';
 keyOptions = keyOptions.split(',');
 
 let generateButton, generateFromSeed, generateKeyButton;
@@ -52,13 +52,14 @@ function fisherYates(myArray, nb_picks, seed) {
     return tempArray.slice(0,nb_picks);
 }
 
-function drawBoard(newBoardId) {
+function drawBoard(newBoardId, allowCardClicks = true) {
     // reset board
     let seed = Math.ceil(Math.random() * 100000).toString();
     if (newBoardId && typeof newBoardId != 'object') {
         seed = newBoardId;
     }
     let board = document.getElementById('board');
+    console.log('wipe out board');
     board.innerHTML = '';
 
     const boardWords = fisherYates(wordOptions, 25, seed);
@@ -78,6 +79,10 @@ function drawBoard(newBoardId) {
         let card = document.createElement('td');
         card.classList.add('cn-card');
         card.innerHTML = word;
+        if (allowCardClicks) {
+            card.onclick = assignCard;
+            card.classList.add('cn-clickable');
+        }
         
         boardLayout[row].appendChild(card);
     }
@@ -97,8 +102,10 @@ function drawKey(newKeyId) {
     keyId = seed;
     const boardString = document.getElementById('string');
     if (boardString) {
-        drawBoard(boardString.innerHTML);
-    }                
+        drawBoard(boardString.innerHTML, false);
+    } else {
+        drawBoard(boardId, false);
+    }
     const cards = document.querySelectorAll('.cn-card');
     if (cards.length > 0) {
         let gameKey = keyOptions.slice();
@@ -152,5 +159,30 @@ function updateBoardLink() {
         keyContainer.appendChild(keyLink);
         keyContainer.innerHTML += ` (Board: ${boardId}; Key: ${keyId})`;
         links.appendChild(keyContainer);
+    }
+}
+
+function assignCard(event) {
+    let options = ['blue', 'red', 'bystander', 'assassin'];
+    let card = event.target;
+    console.log('card click: ', card.classList);
+    let clear = false;
+    for (let i = 0; i < options.length; i++) {
+        if (card.classList.contains(options[i])) {
+            console.log(`\tremove ${options[i]}`);
+            card.classList.remove(options[i]);
+            if (i < options.length - 1) {
+                card.classList.add(options[i + 1]);
+            } else {
+                clear = true;
+            }
+            console.log(`\tfinal: ${card.classList}`);
+            break;
+        }
+    }
+
+    if (!clear && card.classList.length == 2) {
+        console.log('nothing set, setting basic.')
+        card.classList.add(options[0]);
     }
 }
