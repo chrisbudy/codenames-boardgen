@@ -9,7 +9,7 @@ keyOptions = keyOptions.split(',');
 
 let generateButton, generateFromSeed, generateKeyButton;
 
-const currentUrl = window.location.href;
+const currentUrl = window.location.href.split('?')[0];
 
 document.addEventListener("DOMContentLoaded", function() {
     generateButton = document.getElementById('generate');
