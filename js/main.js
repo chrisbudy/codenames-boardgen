@@ -165,24 +165,20 @@ function updateBoardLink() {
 function assignCard(event) {
     let options = ['blue', 'red', 'bystander', 'assassin'];
     let card = event.target;
-    console.log('card click: ', card.classList);
     let clear = false;
     for (let i = 0; i < options.length; i++) {
         if (card.classList.contains(options[i])) {
-            console.log(`\tremove ${options[i]}`);
             card.classList.remove(options[i]);
             if (i < options.length - 1) {
                 card.classList.add(options[i + 1]);
             } else {
                 clear = true;
             }
-            console.log(`\tfinal: ${card.classList}`);
             break;
         }
     }
 
     if (!clear && card.classList.length == 2) {
-        console.log('nothing set, setting basic.')
         card.classList.add(options[0]);
     }
 }
